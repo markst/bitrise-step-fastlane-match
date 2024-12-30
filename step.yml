@@ -111,6 +111,18 @@ inputs:
       - "appstore"
       - "development"
       - "enterprise"
+  - platform: ios
+    opts:
+      title: "Platform"
+      summary: ""
+      description: |-
+        The platform for which the certificate and provisioning profile should be installed.
+      is_required: true
+      value_options:
+      - "ios"
+      - "tvos"
+      - "macos"
+      - "catalyst"
   - team_id: ""
     opts:
       title: "Team ID"
