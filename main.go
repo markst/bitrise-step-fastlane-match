@@ -26,6 +26,7 @@ type ConfigsModel struct {
 	AppID           string
 	DecryptPassword string
 	Type            string
+	Platform        string
 	TeamID          string
 
 	Options         string
@@ -40,6 +41,7 @@ func createConfigsModelFromEnvs() ConfigsModel {
 		AppID:           os.Getenv("app_id"),
 		DecryptPassword: os.Getenv("decrypt_password"),
 		Type:            os.Getenv("type"),
+		Platform:        os.Getenv("platform"),
 		TeamID:          os.Getenv("team_id"),
 
 		Options:         os.Getenv("options"),
@@ -56,6 +58,7 @@ func (configs ConfigsModel) print() {
 	log.Printf("- AppID: %s", configs.AppID)
 	log.Printf("- DecryptPassword: %s", input.SecureInput(configs.DecryptPassword))
 	log.Printf("- Type: %s", configs.Type)
+	log.Printf("- Platform: %s", configs.Platform)
 	log.Printf("- TeamID: %s", configs.TeamID)
 
 	log.Printf("- Options: %s", configs.Options)
@@ -78,6 +81,10 @@ func (configs ConfigsModel) validate() error {
 
 	if err := input.ValidateWithOptions(configs.Type, "adhoc", "appstore", "development", "enterprise"); err != nil {
 		return fmt.Errorf("Type, %s", err)
+	}
+
+	if err := input.ValidateWithOptions(configs.Platform, "ios", "tvos", "macos", "catalyst"); err != nil {
+		return fmt.Errorf("Platform, %s", err)
 	}
 
 	return nil
@@ -301,10 +308,14 @@ func main() {
 	if configs.GitBranch != "" {
 		args = append(args, "--git_branch", configs.GitBranch)
 	}
-	
+
 	if configs.TeamID != "" {
 		args = append(args, "--team_id", configs.TeamID)
-	}	
+	}
+
+	if configs.Platform != "" {
+		args = append(args, "--platform", configs.Platform)
+	}
 
 	args = append(args, options...)
 
