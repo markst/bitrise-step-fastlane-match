@@ -101,7 +101,7 @@ inputs:
       is_required: true
   - type: development
     opts:
-      title: "Platform"
+      title: "Certificate Type"
       summary: ""
       description: |-
         The type of certificate and provisioning profile you want to install.
